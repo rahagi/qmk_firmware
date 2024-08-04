@@ -18,3 +18,6 @@
 
 /* Enable caps-lock LED */
 #define CAPS_LOCK_LED_INDEX 30
+#define DYNAMIC_KEYMAP_LAYER_COUNT 7
+#define MOUSEKEY_INTERVAL 6
+#define MOUSEKEY_MAX_SPEED 3
