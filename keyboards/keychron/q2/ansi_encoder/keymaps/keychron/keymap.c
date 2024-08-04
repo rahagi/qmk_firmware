@@ -16,6 +16,7 @@
 
 #include QMK_KEYBOARD_H
 #include "keychron_common.h"
+#include "features/socd_cleaner.h"
 
 enum layers{
     MAC_BASE,
@@ -72,10 +73,24 @@ const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
 };
 #endif
 
+socd_cleaner_t socd_v = {{KC_W, KC_S}, SOCD_CLEANER_LAST};
+socd_cleaner_t socd_h = {{KC_A, KC_D}, SOCD_CLEANER_LAST};
+
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case SOCDTOG:
+            if (record->event.pressed) {
+                socd_cleaner_enabled = !socd_cleaner_enabled;
+            }
+            return false;
+    };
+
+    if (!process_socd_cleaner(keycode, record, &socd_v)) { return false; }
+    if (!process_socd_cleaner(keycode, record, &socd_h)) { return false; }
     if (!process_record_keychron(keycode, record)) {
         return false;
     }
 
     return true;
 }
+
